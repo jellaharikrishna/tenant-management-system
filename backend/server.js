@@ -4,7 +4,7 @@ const sqlite3 = require('sqlite3');
 const {open} = require('sqlite');
 
 const path = require('path');
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 
@@ -92,7 +92,7 @@ app.post('/register', async (req, res) => {
     const dbUser = await db.get(getUser, [email])
 
     if (dbUser === undefined){
-        const hashedPassword = await bcrypt.hash(password, 10)
+        const hashedPassword = await bcryptjs.hash(password, 10)
         const createUser = `INSERT INTO user (name, email, password) VALUES (?, ?, ?)`
         const dbResponse =  await db.run(createUser, [name, email, hashedPassword])
         const newUserId = dbResponse.lastID
@@ -111,7 +111,7 @@ app.post('/user/login', async (req, res) => {
     if (dbUser === undefined) {
         res.status(400).send("Invalid User")
     } else {
-        const isPasswordMatch = await bcrypt.compare(password, dbUser.password)
+        const isPasswordMatch = await bcryptjs.compare(password, dbUser.password)
         if (isPasswordMatch) {
             const payload = {email: email}
             const jwtToken = jwt.sign(payload, "nxtwave")
