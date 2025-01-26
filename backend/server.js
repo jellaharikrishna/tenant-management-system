@@ -3,16 +3,17 @@ const express = require('express');
 const sqlite3 = require('sqlite3');
 const {open} = require('sqlite');
 
+const cors = require('cors');
 const path = require('path');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const cors = require('cors');
 
 const app = express()
 app.use(express.json())
+app.use(cors())
 
 // app.use(cors({
-//     origin: "https://todosfrontend-wu9i.onrender.com", // Corrected origin without trailing slash
+//     origin: "http://localhost:3000/", // Corrected origin without trailing slash
 //     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
 //     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
 //     credentials: true // Include credentials if required
