@@ -125,7 +125,7 @@ app.post('/login', async (req, res) => {
         if (isPasswordMatch) {
             const payload = {email: email}
             const jwtToken = jwt.sign(payload, "nxtwave")
-            res.send(jwtToken)
+            res.send({jwtToken})
         } else {
             res.status(400).send("Invalid Password")
         }
@@ -170,8 +170,13 @@ app.post('/tenants', authenticateToken, async (req, res) => {
 // tenants array
 app.get("/tenants", authenticateToken, async(req,res)=>{
     try {
-        const getUserTenants = `SELECT * FROM tenantsDetails`
-        const userTenantsArray = await db.all(getUserTenants)
+        const {email} = req
+        const getUserProfile = `SELECT id FROM user WHERE email = ?`
+        const userProfile = await db.get(getUserProfile, [email])
+        const {id} = userProfile
+
+        const getUserTenants = `SELECT * FROM tenantsDetails WHERE id = ? `
+        const userTenantsArray = await db.all(getUserTenants, [id])
         res.send(userTenantsArray)
     } catch (e) {
         res.status(500).send(`ErrorMsg: ${e.message}`)
