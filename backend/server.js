@@ -67,6 +67,15 @@ const initializeDBAndServer = async () => {
 initializeDBAndServer()
 
 
+app.get("/home", (req, res) => {
+    res.status(200).send("home page")
+})
+
+app.get("/about", (req, res) => {
+    res.status(200).send("about page")
+})
+
+
 // middleware authentication
 const authenticateToken = async (req, res, next) => {
     const authHeader = req.headers["authorization"]
