@@ -10,11 +10,11 @@ const jwt = require('jsonwebtoken');
 
 const app = express()
 app.use(express.json())
-//app.use(cors())
+app.use(cors())
 
 app.use(cors({
-    origin: "http://localhost:3000/", // Corrected origin without trailing slash
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
+    origin: "http://localhost:3000", // Removed trailing slash
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
     credentials: true // Include credentials if required
 }));

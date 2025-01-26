@@ -9,19 +9,21 @@ const Login = () => {
   const submitForm = async (e) => {
     e.preventDefault()
     const userDetails = JSON.stringify({email, password})
-    console.log(userDetails)
+
     const url = "https://tenant-management-backend-ik4j.onrender.com/login"
+    //const url = "http://localhost:5000/login"
+
     const options = {
       method: "POST",
       headers :{
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(userDetails),
+      body: userDetails,
     }
 
     const response = await fetch(url, options)
 
-    //const response = await axios.post("https://tenant-management-backend-ik4j.onrender.com/login", userDetails)
+    //const response = await axios.post(url, userDetails)
     const data = await response.json()
     console.log(response)
     console.log(data)
